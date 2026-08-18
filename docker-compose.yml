@@ -182,13 +182,24 @@ services:
       # Provider configuration. ANTHROPIC_API_KEY (or
       # CLAUDE_MEM_ANTHROPIC_API_KEY) is required for real generation; the
       # worker stays running but never produces observations without one.
+      #
+      # The host-side variable names below (CLAUDE_MEM_DEPLOY_*) are deliberately
+      # NOT the bare provider names (OPENROUTER_API_KEY / ANTHROPIC_API_KEY /
+      # GEMINI_API_KEY): docker compose gives an ambiently-exported shell env var
+      # precedence over .env with zero warning, and this host commonly has
+      # OPENROUTER_API_KEY exported for unrelated local tooling. That exact
+      # collision silently swapped in an incompatible key here and caused a real
+      # production outage (2026-07-21, every generation job failing with
+      # "OpenRouter auth error (status 401)"). Deploy-specific names are immune
+      # to it; only the container-facing var (right-hand side below) uses the
+      # name the app code actually reads.
       CLAUDE_MEM_SERVER_PROVIDER: ${CLAUDE_MEM_SERVER_PROVIDER:-claude}
       CLAUDE_MEM_SERVER_MODEL: ${CLAUDE_MEM_SERVER_MODEL:-}
       CLAUDE_MEM_OPENROUTER_BASE_URL: ${CLAUDE_MEM_OPENROUTER_BASE_URL:-}
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
-      CLAUDE_MEM_ANTHROPIC_API_KEY: ${CLAUDE_MEM_ANTHROPIC_API_KEY:-}
-      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
-      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      ANTHROPIC_API_KEY: ${CLAUDE_MEM_DEPLOY_ANTHROPIC_KEY:-}
+      CLAUDE_MEM_ANTHROPIC_API_KEY: ${CLAUDE_MEM_DEPLOY_ANTHROPIC_KEY:-}
+      GEMINI_API_KEY: ${CLAUDE_MEM_DEPLOY_GEMINI_KEY:-}
+      OPENROUTER_API_KEY: ${CLAUDE_MEM_DEPLOY_OPENROUTER_KEY:-}
     volumes:
       - claude-mem-data:/data/claude-mem
       # #2558 — credentials-file mount (see server service above). Keeps
