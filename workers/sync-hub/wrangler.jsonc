@@ -30,7 +30,7 @@
 			// Local dev and vitest use a local simulator and ignore this id.
 			// Also holds the kill-switch flag under the `control:` key prefix
 			// (src/kill-switch.ts documents why it shares this namespace).
-			"id": "f8b295652fed47d7ab7f739460443111"
+			"id": "9db581c9421248168ef43782aac57aa9"
 		}
 	],
 	// Two crons, dispatched on event.cron in src/index.ts's scheduled handler
@@ -50,13 +50,13 @@
 	"vars": {
 		// Implemented Pro verifier dependency. Deploy and canary this route first;
 		// activate SyncHub only after the production route passes token/user binding.
-		"TOKEN_VERIFY_URL": "https://cmem.ai/api/pro/sync/verify",
+		"TOKEN_VERIFY_URL": "https://cmem-verify.jovanovic.org.uk/api/pro/sync/verify",
 		// Positive-verdict cache TTL. Runtime clamps this to exactly 60 seconds:
 		// Cloudflare KV's minimum and the public token-rotation bound coincide.
 		"AUTH_CACHE_TTL_SECONDS": "60",
 		// Stateless Worker -> Pro projection endpoint. The companion bearer
 		// credential is the CMEM_INTERNAL_PROJECTOR_SECRET Worker secret.
-		"INTERNAL_PROJECTOR_URL": "https://cmem.ai/api/internal/sync/project",
+		"INTERNAL_PROJECTOR_URL": "https://cmem-projector.jovanovic.org.uk/api/internal/sync/project",
 
 		// --- Kill switch (src/kill-switch.ts) ---------------------------------
 		// Per-isolate cache TTL (ms) for the kill-switch KV read. Empty ⇒ the
@@ -69,7 +69,7 @@
 		// logs a skip (never a false alert). (DEPLOY.md)
 		// The companion secrets ANALYTICS_API_TOKEN and DISCORD_WEBHOOK_URL are
 		// set via `wrangler secret put` (typed in src/secrets.d.ts).
-		"ACCOUNT_ID": "b68923b1c0a9c2840648102da88ba9d4",
+		"ACCOUNT_ID": "d58a279beef66a76b6b9217f63e68b27",
 		// Durable Object namespace id of SyncHub — narrows the periodic-groups
 		// query (that dataset has no scriptName dimension). Empty ⇒ account-wide
 		// periodic metrics, which is correct while sync-hub is the account's

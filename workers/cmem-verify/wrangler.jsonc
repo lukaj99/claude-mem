@@ -1,0 +1,13 @@
+{
+	"name": "cmem-verify",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-07-14",
+	// Custom domain, NOT the workers.dev subdomain: sync-hub calls this over
+	// plain fetch(), and Cloudflare blocks workers.dev -> workers.dev requests
+	// within one account (surfaces as edge 1042 / a 404 to the caller).
+	"routes": [
+		{ "pattern": "cmem-verify.jovanovic.org.uk", "custom_domain": true }
+	],
+	"observability": { "enabled": true }
+	// Secrets (wrangler secret put): SYNC_TOKEN, SYNC_USER_ID
+}

@@ -1,0 +1,19 @@
+{
+	"name": "cmem-projector",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-07-14",
+	// Custom domain, not workers.dev: sync-hub reaches this over plain fetch(),
+	// and workers.dev -> workers.dev within one account is blocked (edge 1042).
+	"routes": [
+		{ "pattern": "cmem-projector.jovanovic.org.uk", "custom_domain": true }
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "cmem-projection",
+			"database_id": "866a66b5-dbd5-4a73-afdd-9c3cb989dd4a"
+		}
+	],
+	"observability": { "enabled": true }
+	// Secret (wrangler secret put): CMEM_INTERNAL_PROJECTOR_SECRET
+}
